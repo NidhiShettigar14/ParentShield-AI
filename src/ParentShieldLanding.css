@@ -1,0 +1,242 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: var(--font-temla), sans-serif;
+}
+
+.page {
+  font-family: 'Arial', sans-serif;
+  background: linear-gradient(135deg, #a8e6cf 0%, #88d8c0 25%, #7dd3fc 50%, #c084fc 75%, #e879f9 100%);
+  min-height: 100vh;
+  overflow-x: hidden;
+  position: relative;
+}
+
+.container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.header {
+  position: absolute;
+  top: 2rem;
+  right: 2rem;
+  color: #6b21a8;
+  font-size: 1.2rem;
+  font-weight: 600;
+  z-index: 10;
+}
+
+.illustration-section {
+  flex: 1;
+  max-width: 600px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.geometric-bg {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.shape-1 {
+  position: absolute;
+  top: 10%;
+  left: 10%;
+  width: 200px;
+  height: 150px;
+  background: linear-gradient(135deg, #e879f9, #c084fc);
+  border-radius: 20px;
+  transform: rotate(-10deg);
+  opacity: 0.9;
+}
+
+.shape-2 {
+  position: absolute;
+  top: 40%;
+  right: 15%;
+  width: 100px;
+  height: 100px;
+  background: linear-gradient(135deg, #7dd3fc, #3b82f6);
+  border-radius: 50%;
+  opacity: 0.8;
+}
+
+.diamond {
+  position: absolute;
+  top: 15%;
+  right: 30%;
+  width: 30px;
+  height: 30px;
+  background: #fbbf24;
+  transform: rotate(45deg);
+}
+
+.illustration-image {
+  max-width: 100%;
+  height: auto;
+  object-fit: contain;
+  border-radius: 15px;
+}
+
+.content-section {
+  flex: 1;
+  max-width: 500px;
+  padding-left: 3rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.main-heading {
+  font-size: 4rem;
+  font-weight: 800;
+  color: #6b21a8;
+  line-height: 1.1;
+  margin-bottom: 2rem;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.dive-btn {
+  background: linear-gradient(135deg, #c084fc, #a855f7);
+  color: white;
+  border: none;
+  padding: 1rem 2.5rem;
+  font-size: 1.2rem;
+  font-weight: 600;
+  border-radius: 50px;
+  cursor: pointer;
+  box-shadow: 0 8px 25px rgba(168, 85, 247, 0.3);
+  transition: all 0.3s ease;
+  margin-top: 1rem;
+}
+
+.dive-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 35px rgba(168, 85, 247, 0.4);
+}
+
+.floating-cursor {
+  position: absolute;
+  bottom: 20%;
+  right: 25%;
+  width: 25px;
+  height: 25px;
+  background: #10b981;
+  clip-path: polygon(0 0, 0 80%, 30% 60%, 50% 100%, 60% 55%, 100% 50%);
+  z-index: 5;
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* Responsive Styles */
+@media (max-width: 1024px) {
+  .container {
+    flex-direction: column;
+    text-align: center;
+    padding: 1rem;
+  }
+
+  .content-section {
+    padding-left: 0;
+    margin-top: 2rem;
+  }
+
+  .main-heading {
+    font-size: 3rem;
+  }
+
+  .illustration-section {
+    max-width: 500px;
+  }
+
+  .main-illustration {
+    width: 350px;
+    height: 250px;
+  }
+}
+
+@media (max-width: 768px) {
+  .header {
+    top: 1rem;
+    right: 1rem;
+    font-size: 1rem;
+  }
+
+  .main-heading {
+    font-size: 2.5rem;
+  }
+
+  .main-illustration {
+    width: 300px;
+    height: 200px;
+  }
+
+  .shape-1 {
+    width: 150px;
+    height: 100px;
+  }
+
+  .content-section {
+    padding: 0 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .main-heading {
+    font-size: 2rem;
+  }
+
+  .dive-btn {
+    padding: 0.8rem 2rem;
+    font-size: 1rem;
+  }
+
+  .main-illustration {
+    width: 250px;
+    height: 180px;
+  }
+}
+
+/* Header changes */
+.header {
+  position: absolute;
+  top: 2rem;
+  right: 2rem;
+  color: #6b21a8;
+  font-size: 1.2rem;
+  font-weight: 600;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+/* Clerk modal center & blur (Clerk already centers, we just ensure the backdrop is styled) */
+.clerk-modal-overlay {
+  backdrop-filter: blur(8px);
+  background-color: rgba(0, 0, 0, 0.3) !important;
+  z-index: 9999;
+}
+

@@ -1,55 +1,35 @@
 import React from 'react';
-import './ParentShieldLanding.css';
-import {
-  SignedIn,
-  SignedOut,
-  SignInButton,
-  UserButton,
-  useSignIn
-} from '@clerk/clerk-react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { ThemeProvider } from './context/ThemeContext';
+import { useTheme } from './context/ThemeContext';
+import Landing from './pages/Landing';
+import LiquidChrome from './components/Plasma';
+import dashboard from './pages/Dashboard';
+import Dashboard from './pages/Dashboard';
+import ProtectedRoute from './components/ProtectedRoute';
+
+function AppContent() {
+  const { isDark } = useTheme();
+
+  return (
+
+      <Router>
+        <Routes>
+          <Route path="/" element={<Landing />} />
+
+          <Route path="/dashboard" element={ <ProtectedRoute><Dashboard /> </ProtectedRoute>} />
+          
+        </Routes>
+      </Router>
+
+  );
+}
 
 const App = () => {
   return (
-    <div className="page">
-      {/* Header */}
-      <div className="header">
-        <span>Parent Shield AI</span>
-
-        <SignedIn>
-          <UserButton />
-        </SignedIn>
-      </div>
-
-      {/* Main Content */}
-      <div className="container">
-        {/* Left - Illustration */}
-        <div className="illustration-section">
-          <img
-            src="/image.png"
-            width="3500px"
-            alt="Parent Shield AI Security Illustration"
-            className="illustration-image"
-          />
-        </div>
-
-        {/* Right - Text */}
-        <div className="content-section">
-          <h1 className="main-heading">
-            Stay One<br />
-            Step Ahead<br />
-            of Online<br />
-            Risks!!
-          </h1>
-
-          {/* Show Dive In button when signed out */}
-          <SignedOut>
-            <SignInButton mode="modal">
-              <button className="dive-btn">Dive In</button>
-            </SignInButton>
-          </SignedOut>
-        </div>
-      </div>
-    </div>
+    <ThemeProvider>
+      <AppContent />
+    </ThemeProvider>
   );
 };
 

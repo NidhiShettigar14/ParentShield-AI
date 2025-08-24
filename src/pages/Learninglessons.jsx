@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import Navbar from '@/components/navbar';
+import { GridBeams } from '@/components/magicui/grid-beams';
 
 const LessonsPage = () => {
   const [bookmarks, setBookmarks] = useState([]);
@@ -144,8 +146,29 @@ const LessonsPage = () => {
   const selectedTip = tips.find(tip => tip.id === modalTipId);
 
   return (
-    <div className="min-h-screen bg-[#05081A] py-6 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-7xl mx-auto">
+    <div className="min-h-screen bg-[#05081A] mb-20 sm:px-6 lg:px-8 relative">
+      {/* GridBeams Background - Fixed positioning to cover entire screen */}
+      <div className="fixed inset-0 z-0">
+        <GridBeams
+          gridSize={0}
+          gridColor="rgba(255, 255, 255, 0.2)"
+          rayCount={20}
+          rayOpacity={0.55}
+          raySpeed={1.5}
+          rayLength="40vh"
+          gridFadeStart={5}
+          gridFadeEnd={90}
+          className="h-full w-full"
+        />
+      </div>
+      
+      {/* Navbar */}
+      <div className="relative z-10">
+        <Navbar />
+      </div>
+
+      {/* Main Content */}
+      <div className="max-w-7xl mx-auto mt-20 relative z-10">
         {/* Header */}
         <div className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl shadow-xl p-8 mb-8 border border-purple-500/20">
           <h1 className="text-3xl sm:text-4xl font-bold text-white text-center mb-4">
@@ -210,119 +233,6 @@ const LessonsPage = () => {
           ))}
         </div>
 
-        {/* Modal */}
-        {modalTipId && selectedTip && (
-          <div className="fixed inset-0 flex items-center justify-center z-50 bg-black/50 backdrop-blur-sm">
-            <div className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-xl shadow-2xl p-6 w-full max-w-lg sm:max-w-2xl mx-4 max-h-[80vh] overflow-y-auto border border-purple-500/30">
-              <div className="flex justify-between items-center mb-4">
-                <h3 className="text-xl sm:text-2xl font-semibold text-white">{selectedTip.title}</h3>
-                <button
-                  onClick={() => toggleDetails(modalTipId)}
-                  className="text-purple-300 hover:text-purple-100 transition-colors"
-                >
-                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                  </svg>
-                </button>
-              </div>
-
-              {/* Modal Content */}
-              {selectedTip.id === 'fake-news' && (
-                <>
-                  <h4 className="font-semibold text-purple-100 mb-3">Key Warning Signs:</h4>
-                  <ul className="space-y-2 mb-6">
-                    {selectedTip.content.warningSigns.map((sign, index) => (
-                      <li key={index} className="flex items-start text-purple-200 text-sm">
-                        <span className="text-purple-400 font-bold mr-2 mt-0.5">✓</span>
-                        {sign}
-                      </li>
-                    ))}
-                  </ul>
-                  <h4 className="font-semibold text-purple-100 mb-3">Teach Your Children:</h4>
-                  <ul className="space-y-2 mb-6">
-                    {selectedTip.content.teachChildren.map((item, index) => (
-                      <li key={index} className="flex items-start text-purple-200 text-sm">
-                        <span className="text-purple-400 font-bold mr-2 mt-0.5">✓</span>
-                        {item}
-                      </li>
-                    ))}
-                  </ul>
-                  <h4 className="font-semibold text-purple-100 mb-3">⚠️ Examples of Fake News Headlines:</h4>
-                  <div className="space-y-3">
-                    {selectedTip.content.examples.map((example, index) => (
-                      <div key={index} className="bg-red-900/20 border border-red-500/30 rounded-lg p-4">
-                        <div className="bg-red-600 text-white px-2 py-1 rounded text-xs font-bold mb-2">
-                          ❌ FAKE NEWS EXAMPLE
-                        </div>
-                        <p className="italic text-purple-100 text-sm mb-2">&quot;{example.headline}&quot;</p>
-                        <p className="text-xs text-red-300">🚨 Red flags: {example.warning}</p>
-                      </div>
-                    ))}
-                  </div>
-                </>
-              )}
-
-              {selectedTip.id === 'whatsapp' && (
-                <>
-                  <h4 className="font-semibold text-purple-100 mb-3">Privacy Settings to Check:</h4>
-                  <ul className="space-y-2 mb-6">
-                    {selectedTip.content.privacySettings.map((setting, index) => (
-                      <li key={index} className="flex items-start text-purple-200 text-sm">
-                        <span className="text-purple-400 font-bold mr-2 mt-0.5">✓</span>
-                        {setting}
-                      </li>
-                    ))}
-                  </ul>
-                  <h4 className="font-semibold text-purple-100 mb-3">What NOT to Share:</h4>
-                  <ul className="space-y-2 mb-6">
-                    {selectedTip.content.avoidSharing.map((item, index) => (
-                      <li key={index} className="flex items-start text-purple-200 text-sm">
-                        <span className="text-purple-400 font-bold mr-2 mt-0.5">✓</span>
-                        {item}
-                      </li>
-                    ))}
-                  </ul>
-                  <h4 className="font-semibold text-purple-100 mb-3">⚠️ Common Fraud Messages:</h4>
-                  <div className="space-y-3">
-                    {selectedTip.content.examples.map((example, index) => (
-                      <div key={index} className="bg-red-900/20 border border-red-500/30 rounded-lg p-4">
-                        <div className="bg-red-600 text-white px-2 py-1 rounded text-xs font-bold mb-2">
-                          ❌ FAKE MESSAGE EXAMPLE
-                        </div>
-                        <p className="italic text-purple-100 text-sm mb-2">&quot;{example.headline}&quot;</p>
-                        <p className="text-xs text-red-300">🚨 Red flags: {example.warning}</p>
-                      </div>
-                    ))}
-                  </div>
-                </>
-              )}
-
-              {selectedTip.id === 'screen-time' && (
-                <>
-                  <h4 className="font-semibold text-purple-100 mb-3">Age-Appropriate Guidelines:</h4>
-                  <ul className="space-y-2 mb-6">
-                    {selectedTip.content.ageGuidelines.map((guideline, index) => (
-                      <li key={index} className="flex items-start text-purple-200 text-sm">
-                        <span className="text-purple-400 font-bold mr-2 mt-0.5">✓</span>
-                        {guideline}
-                      </li>
-                    ))}
-                  </ul>
-                  <h4 className="font-semibold text-purple-100 mb-3">Healthy Habits to Build:</h4>
-                  <ul className="space-y-2">
-                    {selectedTip.content.healthyHabits.map((habit, index) => (
-                      <li key={index} className="flex items-start text-purple-200 text-sm">
-                        <span className="text-purple-400 font-bold mr-2 mt-0.5">✓</span>
-                        {habit}
-                      </li>
-                    ))}
-                  </ul>
-                </>
-              )}
-            </div>
-          </div>
-        )}
-
         {/* Bookmarks Section */}
         <div className="mt-12 pt-6 border-t border-purple-500/30">
           <div className="flex items-center gap-4 mb-6">
@@ -356,6 +266,119 @@ const LessonsPage = () => {
           </div>
         </div>
       </div>
+
+      {/* Modal */}
+      {modalTipId && selectedTip && (
+        <div className="fixed inset-0 flex items-center justify-center z-50 bg-black/50 backdrop-blur-sm">
+          <div className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-xl shadow-2xl p-6 w-full max-w-lg sm:max-w-2xl mx-4 max-h-[80vh] overflow-y-auto border border-purple-500/30">
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="text-xl sm:text-2xl font-semibold text-white">{selectedTip.title}</h3>
+              <button
+                onClick={() => toggleDetails(modalTipId)}
+                className="text-purple-300 hover:text-purple-100 transition-colors"
+              >
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+
+            {/* Modal Content */}
+            {selectedTip.id === 'fake-news' && (
+              <>
+                <h4 className="font-semibold text-purple-100 mb-3">Key Warning Signs:</h4>
+                <ul className="space-y-2 mb-6">
+                  {selectedTip.content.warningSigns.map((sign, index) => (
+                    <li key={index} className="flex items-start text-purple-200 text-sm">
+                      <span className="text-purple-400 font-bold mr-2 mt-0.5">✓</span>
+                      {sign}
+                    </li>
+                  ))}
+                </ul>
+                <h4 className="font-semibold text-purple-100 mb-3">Teach Your Children:</h4>
+                <ul className="space-y-2 mb-6">
+                  {selectedTip.content.teachChildren.map((item, index) => (
+                    <li key={index} className="flex items-start text-purple-200 text-sm">
+                      <span className="text-purple-400 font-bold mr-2 mt-0.5">✓</span>
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+                <h4 className="font-semibold text-purple-100 mb-3">⚠️ Examples of Fake News Headlines:</h4>
+                <div className="space-y-3">
+                  {selectedTip.content.examples.map((example, index) => (
+                    <div key={index} className="bg-red-900/20 border border-red-500/30 rounded-lg p-4">
+                      <div className="bg-red-600 text-white px-2 py-1 rounded text-xs font-bold mb-2">
+                        ❌ FAKE NEWS EXAMPLE
+                      </div>
+                      <p className="italic text-purple-100 text-sm mb-2">&quot;{example.headline}&quot;</p>
+                      <p className="text-xs text-red-300">🚨 Red flags: {example.warning}</p>
+                    </div>
+                  ))}
+                </div>
+              </>
+            )}
+
+            {selectedTip.id === 'whatsapp' && (
+              <>
+                <h4 className="font-semibold text-purple-100 mb-3">Privacy Settings to Check:</h4>
+                <ul className="space-y-2 mb-6">
+                  {selectedTip.content.privacySettings.map((setting, index) => (
+                    <li key={index} className="flex items-start text-purple-200 text-sm">
+                      <span className="text-purple-400 font-bold mr-2 mt-0.5">✓</span>
+                      {setting}
+                    </li>
+                  ))}
+                </ul>
+                <h4 className="font-semibold text-purple-100 mb-3">What NOT to Share:</h4>
+                <ul className="space-y-2 mb-6">
+                  {selectedTip.content.avoidSharing.map((item, index) => (
+                    <li key={index} className="flex items-start text-purple-200 text-sm">
+                      <span className="text-purple-400 font-bold mr-2 mt-0.5">✓</span>
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+                <h4 className="font-semibold text-purple-100 mb-3">⚠️ Common Fraud Messages:</h4>
+                <div className="space-y-3">
+                  {selectedTip.content.examples.map((example, index) => (
+                    <div key={index} className="bg-red-900/20 border border-red-500/30 rounded-lg p-4">
+                      <div className="bg-red-600 text-white px-2 py-1 rounded text-xs font-bold mb-2">
+                        ❌ FAKE MESSAGE EXAMPLE
+                      </div>
+                      <p className="italic text-purple-100 text-sm mb-2">&quot;{example.headline}&quot;</p>
+                      <p className="text-xs text-red-300">🚨 Red flags: {example.warning}</p>
+                    </div>
+                  ))}
+                </div>
+              </>
+            )}
+
+            {selectedTip.id === 'screen-time' && (
+              <>
+                <h4 className="font-semibold text-purple-100 mb-3">Age-Appropriate Guidelines:</h4>
+                <ul className="space-y-2 mb-6">
+                  {selectedTip.content.ageGuidelines.map((guideline, index) => (
+                    <li key={index} className="flex items-start text-purple-200 text-sm">
+                      <span className="text-purple-400 font-bold mr-2 mt-0.5">✓</span>
+                      {guideline}
+                    </li>
+                  ))}
+                </ul>
+                <h4 className="font-semibold text-purple-100 mb-3">Healthy Habits to Build:</h4>
+                <ul className="space-y-2">
+                  {selectedTip.content.healthyHabits.map((habit, index) => (
+                    <li key={index} className="flex items-start text-purple-200 text-sm">
+                      <span className="text-purple-400 font-bold mr-2 mt-0.5">✓</span>
+                      {habit}
+                    </li>
+                  ))}
+                </ul>
+              </>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 };

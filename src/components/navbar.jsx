@@ -84,7 +84,7 @@ export default function Navbar() {
             {/* Auth Section */}
             <div className="flex items-center space-x-2">
               <SignedOut>
-                <SignInButton mode="modal">
+                {/* <SignInButton mode="modal">
                   <button
                     className={`px-4 py-2 rounded-lg font-medium transition-all duration-200 hover:scale-105 ${
                       isDark
@@ -94,7 +94,7 @@ export default function Navbar() {
                   >
                     Sign In
                   </button>
-                </SignInButton>
+                </SignInButton> */}
               </SignedOut>
 
               <SignedIn>

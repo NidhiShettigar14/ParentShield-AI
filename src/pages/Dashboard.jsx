@@ -136,6 +136,7 @@ export function SecurityOverviewCard() {
     </div>
   );
 }
+
 export function SystemOverviewCard() {
   return (
     <div className="bg-gradient-to-br from-blue-600 to-cyan-700 rounded-xl h-full p-6 flex flex-col justify-between text-white shadow-lg">
@@ -277,9 +278,9 @@ function Dashboard({ navbar = null }) {
   );
 
   return (
-     <div className="min-h-screen relative" style={{ backgroundColor: '#020412' }}>
-      {/* Render custom navbar if provided */}
-       <div className="z-0 fixed inset-0">
+    <div className="min-h-screen relative" style={{ backgroundColor: '#020412' }}>
+      {/* GridBeams Background */}
+      <div className="fixed inset-0 z-0">
         <GridBeams
           gridSize={0}
           gridColor="rgba(255, 255, 255, 0.2)"
@@ -292,63 +293,17 @@ function Dashboard({ navbar = null }) {
           className="h-full w-full"
         />
       </div>
-      <Navbar className = 'z-10 relative' />
       
-      {/* Fallback navbar if none provided */}
-      {/* {!navbar && (
-        <nav className="border-b border-gray-700 px-4 lg:px-6 py-3" style={{ backgroundColor: '#020412' }}>
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-4">
-              <button className="lg:hidden">
-                <Menu className="w-6 h-6 text-gray-400" />
-              </button>
-              <div className="flex items-center space-x-2">
-                <div className="w-8 h-8">
-                  <svg viewBox="0 0 100 100" className="w-full h-full">
-                    <circle cx="33" cy="33" r="15" fill="rgb(27, 13, 221)" />
-                    <circle cx="67" cy="33" r="15" fill="rgb(9, 4, 255)" />
-                    <circle cx="50" cy="67" r="15" fill="rgb(1, 61, 226)" />
-                  </svg>
-                </div>
-                <span className="text-xl font-bold text-white">UI-Layouts</span>
-              </div>
-            </div>
-            
-            <div className="hidden md:flex items-center space-x-4 flex-1 max-w-md mx-8">
-              <div className="relative w-full">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
-                <input
-                  type="text"
-                  placeholder="Search..."
-                  className="w-full pl-10 pr-4 py-2 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-800 text-white placeholder-gray-400"
-                />
-              </div>
-            </div>
-            
-            <div className="flex items-center space-x-3">
-              <button className="relative p-2 text-gray-400 hover:text-white">
-                <Bell className="w-5 h-5" />
-                <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
-              </button>
-              <button className="p-2 text-gray-400 hover:text-white">
-                <Settings className="w-5 h-5" />
-              </button>
-              <div className="flex items-center space-x-2 pl-2 border-l border-gray-600">
-                <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center">
-                  <User className="w-4 h-4 text-white" />
-                </div>
-                <span className="text-sm font-medium text-white hidden md:block">John Doe</span>
-              </div>
-            </div>
-          </div>
-        </nav>
-      )} */}
+      {/* Navbar */}
+      <div className="relative z-10 ">
+        <Navbar />
+      </div>
 
-      <div className="px-4 lg:px-6">
+      <div className="px-4 lg:px-6 relative z-10 mx-auto container">
         {/* Dashboard Header */}
         <div className="py-6 border-b border-gray-700">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between space-y-4 md:space-y-0">
-            <div className="text-center md:text-left">
+            <div className="text-center md:text-left ">
               <h1 className="text-3xl font-bold text-white">Analytics Dashboard</h1>
               <p className="text-gray-400 mt-1">Monitor your business performance and insights</p>
             </div>
@@ -422,25 +377,6 @@ function Dashboard({ navbar = null }) {
             })}
           </div>
         </SwapyLayout>
-
-        {/* Footer */}
-        {/* <footer className="py-6 border-t border-gray-200 mt-8">
-          <div className="flex flex-col md:flex-row items-center justify-between space-y-4 md:space-y-0">
-            <div className="text-sm text-gray-600">
-              © 2025 UI-Layouts. Last updated: {new Date().toLocaleDateString()}
-            </div>
-            <div className="flex items-center space-x-4 text-sm text-gray-600">
-              <span>Auto-refresh: On</span>
-              <span>•</span>
-              <span>Data source: Live</span>
-              <span>•</span>
-              <span className="flex items-center space-x-1">
-                <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                <span>Connected</span>
-              </span>
-            </div>
-          </div>
-        </footer> */}
       </div>
     </div>
   );

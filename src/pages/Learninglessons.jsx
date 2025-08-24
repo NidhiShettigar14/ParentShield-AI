@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 const LessonsPage = () => {
   const [bookmarks, setBookmarks] = useState([]);
   const [readTips, setReadTips] = useState(new Set());
-  const [expandedTips, setExpandedTips] = useState(new Set());
+  const [modalTipId, setModalTipId] = useState(null);
 
   const tips = [
     {
@@ -118,14 +118,12 @@ const LessonsPage = () => {
   ];
 
   const toggleDetails = (tipId) => {
-    const newExpandedTips = new Set(expandedTips);
-    if (expandedTips.has(tipId)) {
-      newExpandedTips.delete(tipId);
+    if (modalTipId === tipId) {
+      setModalTipId(null);
     } else {
-      newExpandedTips.add(tipId);
+      setModalTipId(tipId);
       setReadTips(prev => new Set([...prev, tipId]));
     }
-    setExpandedTips(newExpandedTips);
   };
 
   const toggleBookmark = (tipId, title) => {
@@ -141,224 +139,220 @@ const LessonsPage = () => {
   };
 
   const isBookmarked = (tipId) => bookmarks.some(b => b.id === tipId);
-  const isExpanded = (tipId) => expandedTips.has(tipId);
+  const isExpanded = (tipId) => modalTipId === tipId;
+
+  const selectedTip = tips.find(tip => tip.id === modalTipId);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 p-5">
-      <div className="max-w-6xl mx-auto bg-gradient-to-br from-slate-50 via-purple-50 to-lavender-100 rounded-3xl shadow-2xl overflow-hidden border border-purple-200">
+    <div className="min-h-screen bg-[#05081A] py-6 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <div className="bg-gradient-to-br from-slate-700 via-slate-600 to-slate-900 text-slate-50 py-16 px-8 text-center border-b-4 border-purple-400">
-          <h1 className="text-4xl font-bold mb-4">🛡️ Digital Awareness Tips for Parents</h1>
-          <p className="text-xl opacity-90 max-w-2xl mx-auto leading-relaxed">
+        <div className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl shadow-xl p-8 mb-8 border border-purple-500/20">
+          <h1 className="text-3xl sm:text-4xl font-bold text-white text-center mb-4">
+            🛡️ Digital Awareness Tips for Parents
+          </h1>
+          <p className="text-lg sm:text-xl text-purple-200 text-center max-w-3xl mx-auto">
             Essential guidance to help your family navigate the digital world safely and responsibly
           </p>
         </div>
 
         {/* Stats Bar */}
-        <div className="bg-gradient-to-br from-slate-700 via-slate-600 to-slate-900 text-slate-50 py-6 px-8 flex justify-around flex-wrap gap-6 border-b-4 border-purple-400">
+        <div className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-xl p-6 mb-8 flex flex-wrap justify-center gap-8 sm:gap-12 border border-purple-500/20">
           <div className="text-center">
-            <span className="block text-3xl font-bold">{tips.length}</span>
-            <span className="text-sm opacity-80">Expert Tips</span>
+            <span className="block text-2xl sm:text-3xl font-bold text-white">{tips.length}</span>
+            <span className="text-sm text-purple-300">Expert Tips</span>
           </div>
           <div className="text-center">
-            <span className="block text-3xl font-bold">{bookmarks.length}</span>
-            <span className="text-sm opacity-80">Bookmarked</span>
+            <span className="block text-2xl sm:text-3xl font-bold text-white">{bookmarks.length}</span>
+            <span className="text-sm text-purple-300">Bookmarked</span>
           </div>
           <div className="text-center">
-            <span className="block text-3xl font-bold">{readTips.size}</span>
-            <span className="text-sm opacity-80">Tips Read</span>
+            <span className="block text-2xl sm:text-3xl font-bold text-white">{readTips.size}</span>
+            <span className="text-sm text-purple-300">Tips Read</span>
           </div>
         </div>
 
-        <div className="p-10">
-          {/* Tips Grid */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-8 mb-12">
-            {tips.map((tip) => (
-              <div
-                key={tip.id}
-                className="bg-gradient-to-br from-slate-700 to-slate-800 rounded-2xl shadow-lg overflow-hidden transition-all duration-300 hover:-translate-y-2 hover:shadow-xl border-2 border-transparent hover:border-purple-400"
-              >
-                {/* Card Header */}
-                <div className="p-8 pb-0">
-                  <div className={`w-16 h-16 ${tip.iconBg} rounded-2xl flex items-center justify-center text-2xl text-white mb-4`}>
-                    {tip.icon}
-                  </div>
-                  <h3 className="text-xl font-bold text-purple-100 mb-3">{tip.title}</h3>
-                  <p className="text-slate-300 leading-relaxed mb-4">{tip.preview}</p>
-                </div>
-
-                {/* Card Content */}
-                <div className="px-8 pb-8">
-                  {/* Expanded Details */}
-                  {isExpanded(tip.id) && (
-                    <div className="mt-4 pt-4 border-t border-slate-600">
-                      {/* Fake News Content */}
-                      {tip.id === 'fake-news' && (
-                        <>
-                          <h4 className="font-semibold text-purple-200 mb-3">Key Warning Signs:</h4>
-                          <ul className="space-y-2 mb-6">
-                            {tip.content.warningSigns.map((sign, index) => (
-                              <li key={index} className="flex items-start text-slate-300 leading-relaxed">
-                                <span className="text-purple-400 font-bold mr-3 mt-1">✓</span>
-                                <span className="flex-1">{sign}</span>
-                              </li>
-                            ))}
-                          </ul>
-                          
-                          <h4 className="font-semibold text-purple-200 mb-3">Teach Your Children:</h4>
-                          <ul className="space-y-2 mb-6">
-                            {tip.content.teachChildren.map((item, index) => (
-                              <li key={index} className="flex items-start text-slate-300 leading-relaxed">
-                                <span className="text-purple-400 font-bold mr-3 mt-1">✓</span>
-                                <span className="flex-1">{item}</span>
-                              </li>
-                            ))}
-                          </ul>
-
-                          <h4 className="font-semibold text-purple-200 mb-3">⚠️ Examples of Fake News Headlines to Watch For:</h4>
-                          <div className="space-y-3">
-                            {tip.content.examples.map((example, index) => (
-                              <div key={index} className="bg-gradient-to-br from-red-50 to-pink-50 border-2 border-pink-200 rounded-xl p-4">
-                                <div className="bg-red-600 text-white px-2 py-1 rounded text-xs font-bold inline-block mb-2">
-                                  ❌ FAKE NEWS EXAMPLE
-                                </div>
-                                <p className="italic text-slate-800 mb-2 p-2 bg-white bg-opacity-70 rounded">
-                                  <strong>"{example.headline}"</strong>
-                                </p>
-                                <div className="text-xs text-red-700 font-semibold mt-2 p-2 bg-red-100 bg-opacity-50 rounded">
-                                  🚨 Red flags: {example.warning}
-                                </div>
-                              </div>
-                            ))}
-                          </div>
-                        </>
-                      )}
-
-                      {/* WhatsApp Content */}
-                      {tip.id === 'whatsapp' && (
-                        <>
-                          <h4 className="font-semibold text-purple-200 mb-3">Privacy Settings to Check:</h4>
-                          <ul className="space-y-2 mb-6">
-                            {tip.content.privacySettings.map((setting, index) => (
-                              <li key={index} className="flex items-start text-slate-300 leading-relaxed">
-                                <span className="text-purple-400 font-bold mr-3 mt-1">✓</span>
-                                <span className="flex-1">{setting}</span>
-                              </li>
-                            ))}
-                          </ul>
-                          
-                          <h4 className="font-semibold text-purple-200 mb-3">What NOT to Share:</h4>
-                          <ul className="space-y-2 mb-6">
-                            {tip.content.avoidSharing.map((item, index) => (
-                              <li key={index} className="flex items-start text-slate-300 leading-relaxed">
-                                <span className="text-purple-400 font-bold mr-3 mt-1">✓</span>
-                                <span className="flex-1">{item}</span>
-                              </li>
-                            ))}
-                          </ul>
-
-                          <h4 className="font-semibold text-purple-200 mb-3">⚠️ Common Fraud Messages to Watch Out For:</h4>
-                          <div className="space-y-3">
-                            {tip.content.examples.map((example, index) => (
-                              <div key={index} className="bg-gradient-to-br from-red-50 to-pink-50 border-2 border-pink-200 rounded-xl p-4">
-                                <div className="bg-red-600 text-white px-2 py-1 rounded text-xs font-bold inline-block mb-2">
-                                  ❌ FAKE MESSAGE EXAMPLE
-                                </div>
-                                <p className="italic text-slate-800 mb-2 p-2 bg-white bg-opacity-70 rounded">
-                                  <strong>"{example.headline}"</strong>
-                                </p>
-                                <div className="text-xs text-red-700 font-semibold mt-2 p-2 bg-red-100 bg-opacity-50 rounded">
-                                  🚨 Red flags: {example.warning}
-                                </div>
-                              </div>
-                            ))}
-                          </div>
-                        </>
-                      )}
-
-                      {/* Screen Time Content */}
-                      {tip.id === 'screen-time' && (
-                        <>
-                          <h4 className="font-semibold text-purple-200 mb-3">Age-Appropriate Guidelines:</h4>
-                          <ul className="space-y-2 mb-6">
-                            {tip.content.ageGuidelines.map((guideline, index) => (
-                              <li key={index} className="flex items-start text-slate-300 leading-relaxed">
-                                <span className="text-purple-400 font-bold mr-3 mt-1">✓</span>
-                                <span className="flex-1">{guideline}</span>
-                              </li>
-                            ))}
-                          </ul>
-                          
-                          <h4 className="font-semibold text-purple-200 mb-3">Healthy Habits to Build:</h4>
-                          <ul className="space-y-2">
-                            {tip.content.healthyHabits.map((habit, index) => (
-                              <li key={index} className="flex items-start text-slate-300 leading-relaxed">
-                                <span className="text-purple-400 font-bold mr-3 mt-1">✓</span>
-                                <span className="flex-1">{habit}</span>
-                              </li>
-                            ))}
-                          </ul>
-                        </>
-                      )}
-                    </div>
-                  )}
-
-                  {/* Buttons */}
-                  <div className="flex flex-col sm:flex-row gap-3 mt-6">
-                    <button
-                      onClick={() => toggleDetails(tip.id)}
-                      className="flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-purple-600 to-purple-800 text-white rounded-lg font-semibold hover:from-purple-800 hover:to-purple-900 transition-all duration-300 hover:-translate-y-0.5"
-                    >
-                      <span>📖</span>
-                      {isExpanded(tip.id) ? 'Read Less' : 'Read More'}
-                    </button>
-                    
-                    <button
-                      onClick={() => toggleBookmark(tip.id, tip.title)}
-                      className={`flex items-center justify-center gap-2 px-6 py-3 rounded-lg font-bold transition-all duration-300 hover:-translate-y-0.5 ${
-                        isBookmarked(tip.id)
-                          ? 'bg-gradient-to-r from-purple-700 to-indigo-900 text-white'
-                          : 'bg-gradient-to-r from-purple-400 to-purple-600 text-slate-800'
-                      }`}
-                    >
-                      <span>{isBookmarked(tip.id) ? '⭐' : '🔖'}</span>
-                      {isBookmarked(tip.id) ? 'Bookmarked' : 'Bookmark'}
-                    </button>
-                  </div>
-                </div>
+        {/* Tips Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6 mb-12">
+          {tips.map((tip) => (
+            <div
+              key={tip.id}
+              className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-xl shadow-lg p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl border border-purple-500/30"
+            >
+              <div className={`w-12 h-12 ${tip.iconBg} rounded-lg flex items-center justify-center text-xl text-white mb-4`}>
+                {tip.icon}
               </div>
-            ))}
-          </div>
+              <h3 className="text-lg sm:text-xl font-semibold text-white mb-2">{tip.title}</h3>
+              <p className="text-purple-200 text-sm sm:text-base mb-4">{tip.preview}</p>
 
-          {/* Bookmarks Section */}
-          <div className="mt-12 pt-8 border-t-2 border-slate-200">
-            <div className="flex items-center gap-4 mb-6">
-              <h2 className="text-3xl font-bold text-slate-700">📌 Your Bookmarked Tips</h2>
-              <span className="bg-blue-500 text-white px-3 py-1 rounded-full text-sm font-semibold">
-                {bookmarks.length}
-              </span>
+              {/* Buttons */}
+              <div className="flex flex-col sm:flex-row gap-3 mt-6">
+                <button
+                  onClick={() => toggleDetails(tip.id)}
+                  className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-600 to-purple-800 text-white rounded-lg text-sm font-semibold hover:from-purple-700 hover:to-purple-900 transition-all duration-300"
+                >
+                  <span>📖</span>
+                  {isExpanded(tip.id) ? 'Close' : 'Read More'}
+                </button>
+                <button
+                  onClick={() => toggleBookmark(tip.id, tip.title)}
+                  className={`flex-1 flex items-center justify-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-300 ${
+                    isBookmarked(tip.id)
+                      ? 'bg-gradient-to-r from-purple-700 to-indigo-900 text-white'
+                      : 'bg-gradient-to-r from-purple-400 to-purple-600 text-white'
+                  }`}
+                >
+                  <span>{isBookmarked(tip.id) ? '⭐' : '🔖'}</span>
+                  {isBookmarked(tip.id) ? 'Bookmarked' : 'Bookmark'}
+                </button>
+              </div>
             </div>
-            
-            <div className="grid gap-4">
-              {bookmarks.length === 0 ? (
-                <div className="text-center text-slate-400 py-12 bg-gradient-to-br from-slate-800 to-slate-900 rounded-xl border border-dashed border-purple-400">
-                  <p>🔖 No bookmarks yet! Click the bookmark button on any tip to save it for later reference.</p>
-                </div>
-              ) : (
-                bookmarks.map((bookmark) => (
-                  <div key={bookmark.id} className="bg-gradient-to-br from-slate-800 to-slate-900 p-6 rounded-xl border-l-4 border-purple-600">
-                    <h4 className="text-purple-100 font-semibold mb-2">{bookmark.title}</h4>
-                    <p className="text-slate-300 mb-3">Bookmarked tip - click "Read More" above to view full details</p>
-                    <button
-                      onClick={() => removeBookmark(bookmark.id)}
-                      className="flex items-center gap-2 px-4 py-2 bg-slate-100 text-slate-800 border border-purple-400 rounded-lg text-sm hover:bg-purple-50 transition-colors"
-                    >
-                      <span>🗑️</span> Remove
-                    </button>
+          ))}
+        </div>
+
+        {/* Modal */}
+        {modalTipId && selectedTip && (
+          <div className="fixed inset-0 flex items-center justify-center z-50 bg-black/50 backdrop-blur-sm">
+            <div className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-xl shadow-2xl p-6 w-full max-w-lg sm:max-w-2xl mx-4 max-h-[80vh] overflow-y-auto border border-purple-500/30">
+              <div className="flex justify-between items-center mb-4">
+                <h3 className="text-xl sm:text-2xl font-semibold text-white">{selectedTip.title}</h3>
+                <button
+                  onClick={() => toggleDetails(modalTipId)}
+                  className="text-purple-300 hover:text-purple-100 transition-colors"
+                >
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
+
+              {/* Modal Content */}
+              {selectedTip.id === 'fake-news' && (
+                <>
+                  <h4 className="font-semibold text-purple-100 mb-3">Key Warning Signs:</h4>
+                  <ul className="space-y-2 mb-6">
+                    {selectedTip.content.warningSigns.map((sign, index) => (
+                      <li key={index} className="flex items-start text-purple-200 text-sm">
+                        <span className="text-purple-400 font-bold mr-2 mt-0.5">✓</span>
+                        {sign}
+                      </li>
+                    ))}
+                  </ul>
+                  <h4 className="font-semibold text-purple-100 mb-3">Teach Your Children:</h4>
+                  <ul className="space-y-2 mb-6">
+                    {selectedTip.content.teachChildren.map((item, index) => (
+                      <li key={index} className="flex items-start text-purple-200 text-sm">
+                        <span className="text-purple-400 font-bold mr-2 mt-0.5">✓</span>
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                  <h4 className="font-semibold text-purple-100 mb-3">⚠️ Examples of Fake News Headlines:</h4>
+                  <div className="space-y-3">
+                    {selectedTip.content.examples.map((example, index) => (
+                      <div key={index} className="bg-red-900/20 border border-red-500/30 rounded-lg p-4">
+                        <div className="bg-red-600 text-white px-2 py-1 rounded text-xs font-bold mb-2">
+                          ❌ FAKE NEWS EXAMPLE
+                        </div>
+                        <p className="italic text-purple-100 text-sm mb-2">&quot;{example.headline}&quot;</p>
+                        <p className="text-xs text-red-300">🚨 Red flags: {example.warning}</p>
+                      </div>
+                    ))}
                   </div>
-                ))
+                </>
+              )}
+
+              {selectedTip.id === 'whatsapp' && (
+                <>
+                  <h4 className="font-semibold text-purple-100 mb-3">Privacy Settings to Check:</h4>
+                  <ul className="space-y-2 mb-6">
+                    {selectedTip.content.privacySettings.map((setting, index) => (
+                      <li key={index} className="flex items-start text-purple-200 text-sm">
+                        <span className="text-purple-400 font-bold mr-2 mt-0.5">✓</span>
+                        {setting}
+                      </li>
+                    ))}
+                  </ul>
+                  <h4 className="font-semibold text-purple-100 mb-3">What NOT to Share:</h4>
+                  <ul className="space-y-2 mb-6">
+                    {selectedTip.content.avoidSharing.map((item, index) => (
+                      <li key={index} className="flex items-start text-purple-200 text-sm">
+                        <span className="text-purple-400 font-bold mr-2 mt-0.5">✓</span>
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                  <h4 className="font-semibold text-purple-100 mb-3">⚠️ Common Fraud Messages:</h4>
+                  <div className="space-y-3">
+                    {selectedTip.content.examples.map((example, index) => (
+                      <div key={index} className="bg-red-900/20 border border-red-500/30 rounded-lg p-4">
+                        <div className="bg-red-600 text-white px-2 py-1 rounded text-xs font-bold mb-2">
+                          ❌ FAKE MESSAGE EXAMPLE
+                        </div>
+                        <p className="italic text-purple-100 text-sm mb-2">&quot;{example.headline}&quot;</p>
+                        <p className="text-xs text-red-300">🚨 Red flags: {example.warning}</p>
+                      </div>
+                    ))}
+                  </div>
+                </>
+              )}
+
+              {selectedTip.id === 'screen-time' && (
+                <>
+                  <h4 className="font-semibold text-purple-100 mb-3">Age-Appropriate Guidelines:</h4>
+                  <ul className="space-y-2 mb-6">
+                    {selectedTip.content.ageGuidelines.map((guideline, index) => (
+                      <li key={index} className="flex items-start text-purple-200 text-sm">
+                        <span className="text-purple-400 font-bold mr-2 mt-0.5">✓</span>
+                        {guideline}
+                      </li>
+                    ))}
+                  </ul>
+                  <h4 className="font-semibold text-purple-100 mb-3">Healthy Habits to Build:</h4>
+                  <ul className="space-y-2">
+                    {selectedTip.content.healthyHabits.map((habit, index) => (
+                      <li key={index} className="flex items-start text-purple-200 text-sm">
+                        <span className="text-purple-400 font-bold mr-2 mt-0.5">✓</span>
+                        {habit}
+                      </li>
+                    ))}
+                  </ul>
+                </>
               )}
             </div>
+          </div>
+        )}
+
+        {/* Bookmarks Section */}
+        <div className="mt-12 pt-6 border-t border-purple-500/30">
+          <div className="flex items-center gap-4 mb-6">
+            <h2 className="text-2xl sm:text-3xl font-bold text-white">📌 Your Bookmarked Tips</h2>
+            <span className="bg-purple-600 text-white px-3 py-1 rounded-full text-sm font-semibold">
+              {bookmarks.length}
+            </span>
+          </div>
+          <div className="grid gap-4">
+            {bookmarks.length === 0 ? (
+              <div className="text-center text-purple-300 py-8 bg-slate-800/50 rounded-xl border border-dashed border-purple-500/30">
+                <p>🔖 No bookmarks yet! Click the bookmark button on any tip to save it for later reference.</p>
+              </div>
+            ) : (
+              bookmarks.map((bookmark) => (
+                <div
+                  key={bookmark.id}
+                  className="bg-slate-800/50 p-4 sm:p-6 rounded-xl border-l-4 border-purple-600"
+                >
+                  <h4 className="text-purple-100 font-semibold mb-2">{bookmark.title}</h4>
+                  <p className="text-purple-200 text-sm mb-3">Bookmarked tip - click "Read More" above to view full details</p>
+                  <button
+                    onClick={() => removeBookmark(bookmark.id)}
+                    className="flex items-center gap-2 px-4 py-2 bg-purple-600 text-white rounded-lg text-sm font-semibold hover:bg-purple-700 transition-colors"
+                  >
+                    <span>🗑️</span> Remove
+                  </button>
+                </div>
+              ))
+            )}
           </div>
         </div>
       </div>

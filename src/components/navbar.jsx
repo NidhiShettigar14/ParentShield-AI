@@ -67,7 +67,7 @@ export default function Navbar() {
             className="flex items-center space-x-2 text-xl font-bold hover:opacity-80 transition-all duration-200 group"
             style={{ color: colors.text.primary }}
           >
-            <Shield className="w-6 h-6 group-hover:rotate-12 transition-transform duration-200" />
+            <img src="/shield.png" className="w-6 h-6 group-hover:rotate-12 transition-transform duration-200" />
             <span>ParentShield AI</span>
           </Link>
 

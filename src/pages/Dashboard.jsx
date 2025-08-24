@@ -5,6 +5,7 @@ import { SwapyItem, SwapyLayout, SwapySlot } from '@/components/swapy';
 import { Heart, PlusCircle, Bell, Search, Settings, User, Menu, MoreHorizontal, Download, RefreshCw, Filter, BookOpen, CreditCard, AlertTriangle, TrendingUp, MessageSquare, Shield, Star, CheckCircle, Activity, Users } from 'lucide-react';
 import Navbar from '@/components/navbar';
 import { Link } from 'react-router-dom';
+import { GridBeams } from '@/components/magicui/grid-beams';
 
 // Your existing card components (unchanged)
 export function LessonsCard() {
@@ -276,9 +277,22 @@ function Dashboard({ navbar = null }) {
   );
 
   return (
-    <div className="min-h-screen" style={{ backgroundColor: '#020412' }}>
+     <div className="min-h-screen relative" style={{ backgroundColor: '#020412' }}>
       {/* Render custom navbar if provided */}
-      <Navbar />
+       <div className="z-0 fixed inset-0">
+        <GridBeams
+          gridSize={0}
+          gridColor="rgba(255, 255, 255, 0.2)"
+          rayCount={20}
+          rayOpacity={0.55}
+          raySpeed={1.5}
+          rayLength="40vh"
+          gridFadeStart={5}
+          gridFadeEnd={90}
+          className="h-full w-full"
+        />
+      </div>
+      <Navbar className = 'z-10 relative' />
       
       {/* Fallback navbar if none provided */}
       {/* {!navbar && (

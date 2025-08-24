@@ -4,6 +4,7 @@ import { utils } from 'swapy';
 import { SwapyItem, SwapyLayout, SwapySlot } from '@/components/swapy';
 import { Heart, PlusCircle, Bell, Search, Settings, User, Menu, MoreHorizontal, Download, RefreshCw, Filter, BookOpen, CreditCard, AlertTriangle, TrendingUp, MessageSquare, Shield, Star, CheckCircle, Activity, Users } from 'lucide-react';
 import Navbar from '@/components/navbar';
+import { Link } from 'react-router-dom';
 
 // Your existing card components (unchanged)
 export function LessonsCard() {
@@ -218,7 +219,7 @@ const initialItems = [
   {
     id: '1',
     title: '1',
-    widgets: <LessonsCard />,
+    widgets: <><Link to='/lessons'><LessonsCard /></Link></>,
     className: 'lg:col-span-4 sm:col-span-7 col-span-12',
   },
   {

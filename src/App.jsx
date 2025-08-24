@@ -7,6 +7,7 @@ import LiquidChrome from './components/Plasma';
 import dashboard from './pages/Dashboard';
 import Dashboard from './pages/Dashboard';
 import ProtectedRoute from './components/ProtectedRoute';
+import LessonsPage from './pages/Learninglessons';
 
 function AppContent() {
   const { isDark } = useTheme();
@@ -18,6 +19,7 @@ function AppContent() {
           <Route path="/" element={<Landing />} />
 
           <Route path="/dashboard" element={ <ProtectedRoute><Dashboard /> </ProtectedRoute>} />
+          <Route path="/lessons" element={ <ProtectedRoute><LessonsPage /> </ProtectedRoute>} />
           
         </Routes>
       </Router>
